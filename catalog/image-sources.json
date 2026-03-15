@@ -4,14 +4,14 @@
   "images": [
     {
       "name": "landing",
-      "ref": "ghcr.io/techofourown/sw-ourbox-apps-demo/landing@sha256:5f288e2a4158d2a6ba45b119c5ae2c059d8d2ab555d30ae3e0d51906679e2e3c",
+      "ref": "ghcr.io/techofourown/sw-ourbox-apps-demo/landing:latest",
       "used_by": [
         "landing"
       ]
     },
     {
       "name": "todo-bloom",
-      "ref": "ghcr.io/techofourown/sw-ourbox-apps-demo/todo-bloom@sha256:c67ad365ad1f880c42fac9a9cfe4375187b3b721a2be4768719f7782298ea20a",
+      "ref": "ghcr.io/techofourown/sw-ourbox-apps-demo/todo-bloom:latest",
       "used_by": [
         "todo-bloom"
       ]
@@ -32,7 +32,7 @@
     },
     {
       "name": "hello-world",
-      "ref": "ghcr.io/techofourown/sw-ourbox-apps-hello-world/hello-world@sha256:d29428789d671b9405ab202413f5eff4d2fb4870f80791050430bce24ccac2d6",
+      "ref": "ghcr.io/techofourown/sw-ourbox-apps-hello-world/hello-world:latest",
       "used_by": [
         "hello-world"
       ]

@@ -39,6 +39,12 @@ Published bundles carry `OURBOX_PLATFORM_CONTRACT_DIGEST` in `manifest.env`.
 That lets host-side installers reject catalog bundles that do not match the
 selected OS payload contract.
 
+This repo also publishes installer-browsable catalog rows at
+`ghcr.io/techofourown/sw-ourbox-catalog-demo:catalog-amd64`. Those rows let
+host-side installers resolve the newest stable bundle whose
+`OURBOX_PLATFORM_CONTRACT_DIGEST` matches the selected OS payload contract,
+without hardcoding a floating bundle ref in downstream consumers.
+
 ## What this proves
 
 - one application catalog can consume published images from multiple apps repos

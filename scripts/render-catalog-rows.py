@@ -143,10 +143,7 @@ def main() -> int:
         version=str(args.version).strip(),
         revision=str(args.revision).strip(),
         arch=str(args.arch).strip(),
-        platform_contract_digest=(
-            os.environ.get("OURBOX_PLATFORM_CONTRACT_DIGEST", "").strip()
-            or str(profile.get("OURBOX_PLATFORM_CONTRACT_DIGEST", "")).strip()
-        ),
+        platform_contract_digest=os.environ.get("OURBOX_PLATFORM_CONTRACT_DIGEST", "").strip(),
         platform_profile=catalog_id,
         images_lock_sha256=sha256_file(images_lock),
         artifact_digest=str(args.artifact_digest).strip(),

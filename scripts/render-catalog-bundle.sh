@@ -94,10 +94,8 @@ if profile.get("OURBOX_APPLICATION_CATALOG_DEFAULT_APP_IDS") != ",".join(default
     raise SystemExit("profile.env default app ids do not match catalog.json")
 
 platform_contract_digest = os.environ.get("OURBOX_PLATFORM_CONTRACT_DIGEST", "").strip()
-if not platform_contract_digest:
-    platform_contract_digest = str(profile.get("OURBOX_PLATFORM_CONTRACT_DIGEST", "")).strip()
 if not DIGEST_RE.fullmatch(platform_contract_digest):
-    raise SystemExit("OURBOX_PLATFORM_CONTRACT_DIGEST must be set via environment or profile.env")
+    raise SystemExit("OURBOX_PLATFORM_CONTRACT_DIGEST must be set in the environment")
 
 app_ids: set[str] = set()
 image_names_used_by_catalog: dict[str, set[str]] = {}

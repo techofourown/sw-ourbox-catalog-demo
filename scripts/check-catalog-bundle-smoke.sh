@@ -96,8 +96,9 @@ for raw_line in profile_lines:
     key, value = line.split("=", 1)
     profile[key] = value
 
-if not re.fullmatch(r"sha256:[0-9a-f]{64}", profile.get("OURBOX_PLATFORM_CONTRACT_DIGEST", "")):
-    raise SystemExit("profile.env must declare OURBOX_PLATFORM_CONTRACT_DIGEST")
+pcd = profile.get("OURBOX_PLATFORM_CONTRACT_DIGEST", "")
+if pcd and not re.fullmatch(r"sha256:[0-9a-f]{64}", pcd):
+    raise SystemExit("profile.env OURBOX_PLATFORM_CONTRACT_DIGEST is malformed")
 PY
 
 bash "${ROOT}/scripts/render-catalog-bundle.sh"

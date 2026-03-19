@@ -102,18 +102,18 @@ image_names_used_by_catalog: dict[str, set[str]] = {}
 for app in apps:
     app_id = str(app.get("id", "")).strip()
     if not app_id:
-      raise SystemExit("catalog.json contains an app without an id")
+        raise SystemExit("catalog.json contains an app without an id")
     if app_id in app_ids:
-      raise SystemExit(f"catalog.json contains duplicate app id: {app_id}")
+        raise SystemExit(f"catalog.json contains duplicate app id: {app_id}")
     app_ids.add(app_id)
     names = app.get("image_names")
     if not isinstance(names, list) or not names:
-      raise SystemExit(f"catalog.json app {app_id!r} must declare non-empty image_names")
+        raise SystemExit(f"catalog.json app {app_id!r} must declare non-empty image_names")
     for raw_name in names:
-      image_name = str(raw_name).strip()
-      if not image_name:
-        raise SystemExit(f"catalog.json app {app_id!r} declares an empty image name")
-      image_names_used_by_catalog.setdefault(image_name, set()).add(app_id)
+        image_name = str(raw_name).strip()
+        if not image_name:
+            raise SystemExit(f"catalog.json app {app_id!r} declares an empty image name")
+        image_names_used_by_catalog.setdefault(image_name, set()).add(app_id)
 
 unknown_defaults = sorted(set(str(item).strip() for item in default_app_ids) - app_ids)
 if unknown_defaults:

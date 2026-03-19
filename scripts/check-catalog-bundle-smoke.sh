@@ -96,10 +96,9 @@ for raw_line in profile_lines:
     key, value = line.split("=", 1)
     profile[key] = value
 
-pcd = profile.get("OURBOX_PLATFORM_CONTRACT_DIGEST", "")
-if pcd and not re.fullmatch(r"sha256:[0-9a-f]{64}", pcd):
-    raise SystemExit("profile.env OURBOX_PLATFORM_CONTRACT_DIGEST is malformed")
 PY
+
+export OURBOX_PLATFORM_CONTRACT_DIGEST="sha256:0000000000000000000000000000000000000000000000000000000000000000"
 
 bash "${ROOT}/scripts/render-catalog-bundle.sh"
 
@@ -127,6 +126,7 @@ python3 - <<'PY' \
   "${ROOT}/catalog/image-sources.json" \
   "${ROOT}/dist/images.lock.json"
 import json
+import os
 import re
 import sys
 from pathlib import Path
@@ -161,8 +161,9 @@ if manifest.get("OURBOX_APPLICATION_CATALOG_APP_COUNT") != str(len(catalog["apps
     raise SystemExit("manifest app count mismatch")
 if manifest.get("OURBOX_APPLICATION_CATALOG_IMAGE_COUNT") != str(len(images_lock["images"])):
     raise SystemExit("manifest image count mismatch")
-if manifest.get("OURBOX_PLATFORM_CONTRACT_DIGEST") != profile.get("OURBOX_PLATFORM_CONTRACT_DIGEST"):
-    raise SystemExit("manifest platform contract digest mismatch")
+expected_digest = os.environ["OURBOX_PLATFORM_CONTRACT_DIGEST"]
+if manifest.get("OURBOX_PLATFORM_CONTRACT_DIGEST") != expected_digest:
+    raise SystemExit("manifest platform contract digest does not match environment fixture")
 if profile.get("OURBOX_APPLICATION_CATALOG_ID") != catalog["catalog_id"]:
     raise SystemExit("profile catalog id mismatch")
 if profile.get("OURBOX_APPLICATION_CATALOG_NAME_SLUG") != expected_slug:
@@ -198,6 +199,7 @@ python3 "${ROOT}/scripts/render-catalog-rows.py" \
 
 python3 - <<'PY' "${TMP_ROOT}/catalog.tsv"
 import csv
+import os
 import re
 import sys
 from pathlib import Path
@@ -221,7 +223,7 @@ for key, expected_value in expected.items():
     if row.get(key) != expected_value:
         raise SystemExit(f"unexpected {key}: {row.get(key)!r}")
 pcd = row.get("platform_contract_digest", "")
-if not re.fullmatch(r"sha256:[0-9a-f]{64}", pcd):
+if pcd != os.environ["OURBOX_PLATFORM_CONTRACT_DIGEST"]:
     raise SystemExit(f"unexpected platform_contract_digest: {pcd!r}")
 if len(str(row.get("platform_images_lock_sha256", ""))) != 64:
     raise SystemExit(f"unexpected platform_images_lock_sha256: {row.get('platform_images_lock_sha256')!r}")

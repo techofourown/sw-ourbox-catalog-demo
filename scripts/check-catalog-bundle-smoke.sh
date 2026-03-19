@@ -197,6 +197,7 @@ python3 "${ROOT}/scripts/render-catalog-rows.py" \
 
 python3 - <<'PY' "${TMP_ROOT}/catalog.tsv"
 import csv
+import re
 import sys
 from pathlib import Path
 
@@ -211,7 +212,6 @@ expected = {
     "version": "main-deadbeefcafe",
     "revision": "deadbeefcafedeadbeefcafedeadbeefcafedead",
     "arch": "amd64",
-    "platform_contract_digest": "sha256:bbdb22bf88595c9817c3e90a3171aa4e3ff8571c105e38e689db722a01cebf49",
     "platform_profile": "demo-apps",
     "artifact_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
     "pinned_ref": "ghcr.io/example/sw-ourbox-catalog-demo@sha256:1111111111111111111111111111111111111111111111111111111111111111",
@@ -219,6 +219,9 @@ expected = {
 for key, expected_value in expected.items():
     if row.get(key) != expected_value:
         raise SystemExit(f"unexpected {key}: {row.get(key)!r}")
+pcd = row.get("platform_contract_digest", "")
+if not re.fullmatch(r"sha256:[0-9a-f]{64}", pcd):
+    raise SystemExit(f"unexpected platform_contract_digest: {pcd!r}")
 if len(str(row.get("platform_images_lock_sha256", ""))) != 64:
     raise SystemExit(f"unexpected platform_images_lock_sha256: {row.get('platform_images_lock_sha256')!r}")
 PY

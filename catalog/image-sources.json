@@ -3,13 +3,6 @@
   "profile": "demo-apps",
   "images": [
     {
-      "name": "landing",
-      "ref": "ghcr.io/techofourown/sw-ourbox-apps-demo/landing:latest",
-      "used_by": [
-        "landing"
-      ]
-    },
-    {
       "name": "todo-bloom",
       "ref": "ghcr.io/techofourown/sw-ourbox-apps-demo/todo-bloom:latest",
       "used_by": [

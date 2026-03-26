@@ -13,6 +13,9 @@ The authoring surface is:
 - `catalog/image-sources.json`
 - `catalog/profile.env`
 
+Shared tooling scripts are pulled automatically at CI time via `bootstrap.sh`
+from the catalog-tooling OCI artifact. They are not checked into the repo.
+
 `images.lock.json` is generated at publish time into `dist/images.lock.json`
 and packed into the published catalog bundle. It is not the checked-in source
 of truth.
@@ -33,17 +36,13 @@ Pinned third-party images:
 - `docker.io/sigoden/dufs@sha256:2d1070cab68881111caf367136a6a10fc9c8353b548d4429c0b2e250d45a0b0b`
 - `docker.io/dullage/flatnotes@sha256:abb3dd864a06aaca3a900d9c43be608765ce42a562c7b2592b637eda155bb0bc`
 
-## Platform contract binding
-
-Published bundles carry `OURBOX_PLATFORM_CONTRACT_DIGEST` in `manifest.env`.
-That lets host-side installers reject catalog bundles that do not match the
-selected OS payload contract.
+## Catalog resolution
 
 This repo also publishes installer-browsable catalog rows at
 `ghcr.io/techofourown/sw-ourbox-catalog-demo:catalog-amd64`. Those rows let
-host-side installers resolve the newest stable bundle whose
-`OURBOX_PLATFORM_CONTRACT_DIGEST` matches the selected OS payload contract,
-without hardcoding a floating bundle ref in downstream consumers.
+host-side installers resolve the newest stable pinned bundle for the requested
+channel and architecture, without hardcoding a floating bundle ref in
+downstream consumers.
 
 ## What this proves
 
